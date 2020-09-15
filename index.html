@@ -1,0 +1,192 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+<script src="sup.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .ui-hidden{
+            display: none;
+        }
+        #coint{
+            width: 500px;
+
+        }
+        body{
+            padding: 50% auto;
+            background-color: #221f1f;
+            color: white;
+        }
+        #title{
+            font-size: 30px;
+            font-family: fantasy;
+        }
+        #kumant{
+            font-style: italic;
+        }
+        .pandding{
+            margin: 5px;
+        }
+        .button {
+            position: relative;
+            background-color: #4CAF50;
+            border: none;
+            font-size: 28px;
+            color: #FFFFFF;
+            padding: 20px;
+            text-align: center;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+            text-decoration: none;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .button:after {
+            content: "";
+            background: #90EE90;
+            display: block;
+            position: absolute;
+            padding-top: 300%;
+            padding-left: 350%;
+            margin-left: -20px!important;
+            margin-top: -120%;
+            opacity: 0;
+            transition: all 0.8s
+        }
+
+        .button:active:after {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+        #sound{
+            float: right;
+        }
+    </style>
+</head>
+
+<button id="sound" data-sound="on"  class="fa fa-volume-up" ></button>
+
+
+<div id="lavel"></div>
+<div id="point"></div>
+<div id="example">
+<div id="title"></div>
+<div id="kumant"></div>
+    <div id="coint"></div>
+<div id="kubpla"></div>
+    <button id="next">Start</button>
+</div>
+
+<audio id="playtrue" class="ui-hidden" controls>
+    <source src="true.ogg" type="audio/ogg">
+    <source  src="true.mp3" type="audio/mpeg">
+</audio>
+
+<audio  id="playfalse" class="ui-hidden" controls>
+    <source src="false.ogg" type="audio/ogg">
+    <source src="false.mp3" type="audio/mpeg">
+</audio>
+<body>
+<script>
+    $('#sound').click(function(){
+
+        if($('#sound').attr('data-sound')=='on'){
+            $('#sound').attr({'data-sound':'off'});
+            $('#sound').removeClass('fa fa-volume-up');
+            $('#sound').addClass('fa fa-volume-off');
+        }else{
+            $('#sound').attr({'data-sound':'on'});
+
+            $('#sound').removeClass('fa fa-volume-off');
+            $('#sound').addClass('fa fa-volume-up');
+        }
+
+    });
+
+</script>
+<script>
+  var a= sub.split("|");
+  var b= sub.split("\n");
+ var newsub=[];
+ var lavel=0;
+ var i=0;
+ var point=0;
+  var playtue = document.getElementById("playtrue");
+  var playfalse = document.getElementById("playfalse");
+
+  $.each(b,function(idx,item){
+        if(item!="||" && item!="" ){
+            newsub[i]=item.split("|");
+            i++;
+        }
+});
+$('#next').click(function(){
+    next();
+    $('#next').remove();
+});
+
+function reset(){
+      lavel=0;
+      point=0;
+
+    $('#point').html('YouPoint: '+point);
+    next();
+}
+function next(){
+    $('#title').html(newsub[lavel][0]);
+    $('#kumant').html(newsub[lavel][1]);
+    // $('#kubpla').html(newsub[lavel][2]);
+    var countcoint=4;
+    var  rand=  Math.floor(Math.random() * countcoint);
+    var dect=rand;
+    var fackcoint="";
+    var cointHTML="";
+    for(i=0;i<countcoint;i++){
+        if(dect==i){
+            cointHTML=cointHTML+"<div class='pandding'><button class='coint-true button'>"+newsub[lavel][2]+"</button></div>";
+        }else{
+            fackcoint="";
+            fackcoint=newsub[randsub()][2];
+            if(newsub[lavel][2]!=fackcoint){
+                cointHTML=cointHTML+"<div class='pandding'><button class='coint-false button'>"+fackcoint+"</button></div>";
+            }
+        }
+    }
+    $('#coint').html(cointHTML);
+    lavel++;
+    $('#lavel').html("Lavel:"+lavel);
+}
+
+$(document).on('click','.coint-true',function(){
+    point++;
+   $('#point').html('YouPoint: '+point);
+
+    if($('#sound').attr('data-sound')=="on"){
+        playtue.play();
+    }
+    next();
+
+});
+
+  $(document).on('click','.coint-false',function(){
+      // point--;
+      // $('#point').html('YouPoint: '+point);
+      if($('#sound').attr('data-sound')=="on"){
+          playfalse.play();
+      }
+
+      reset();
+  });
+function randsub(){
+    return Math.floor(Math.random() * 3000);
+}
+
+// console.log(JSON.stringify(newsub));
+</script>
+
+</body>
+</html>
